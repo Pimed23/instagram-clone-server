@@ -16,6 +16,7 @@ const initializeUsers = async () => {
 	try {
 		await userService.addUser('Brian', 'Pinto');
 		await userService.addUser('Gabriel', 'Gonza');
+		await userService.addUser('Diego', 'Portocarrero');
 	} catch (err) {
 		console.log('There was an error initializing the users: ', err);
 	}
@@ -36,6 +37,9 @@ const initializePost = async () => {
 
 		await postService.addPost('image3', 'https://www.thestreet.com/.image/t_share/MTgyMDU5NDcwMTc4NzU1NzE1/boredape1.jpg', 'Gabriel');
 		await postService.addPost('image4', 'https://images.wsj.net/im-491396?width=700&height=700', 'Gabriel');
+
+		await postService.addPost('image5', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbASb01ZpcFvzhcV4eUP59yeHNP-3lsrvYNA&usqp=CAU', 'Diego');
+		await postService.addPost('image6', 'https://as01.epimg.net/epik/imagenes/2018/11/16/portada/1542384053_864693_1542384302_noticia_normal.jpg', 'Diego');
 	} catch (err) {
 		console.log('There was a error initializing the posts');
 	}
