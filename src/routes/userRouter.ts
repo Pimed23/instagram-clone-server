@@ -1,8 +1,12 @@
-import express, { Request, Response, Router } from 'express';
+import { Request, Response, Router } from 'express';
 import userService from '../services/userService';
 import jwt from 'jsonwebtoken';
 
 const userRouter = Router();
+
+const generateAccessToken = (user) => {
+	return jwt.sign({name: user}, process.env.SECRET, {expiresIn: 60 * 60});
+}
 
 userRouter.post('/auth', async (req: Request, res: Response, next) => {
   try {
@@ -15,9 +19,5 @@ userRouter.post('/auth', async (req: Request, res: Response, next) => {
     res.status(404).json('Something went wrong...')
   } 
 });
-
-const generateAccessToken = (user) => {
-	return jwt.sign({name: user}, process.env.SECRET, {expiresIn: 5});
-}
 
 export default userRouter;
