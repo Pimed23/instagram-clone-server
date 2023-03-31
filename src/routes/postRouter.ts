@@ -16,15 +16,26 @@ const validateToken = (req: Request, res: Response, next) => {
 	});
 }
 
-userRouter.post('/post', validateToken, async (req: Request, res: Response, next) => {
+userRouter.get('/post', validateToken, async (req: Request, res: Response, next) => {
+	try {
+		const {userId} = req.body;
+		const post = await postService.getAllUserPost(userId);
+		res.json(post);
+	} catch (err) {
+		console.error(err);
+		res.status(404).json('Something went wrong...')
+	}
+});
+
+userRouter.post('/post/create', validateToken, async (req: Request, res: Response, next) => {
   try {
     const {title, imageSource, from} = req.body;
     const post = await postService.addPost(title, imageSource, from);
     res.status(200).json(post);
 	} catch (err) {
-			console.error(err);
-			res.status(404).json('Something went wrong...')
-		} 
+		console.error(err);
+		res.status(404).json('Something went wrong...')
+	} 
 });
 
 export default userRouter;

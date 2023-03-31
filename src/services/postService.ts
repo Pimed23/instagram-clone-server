@@ -2,10 +2,10 @@ import {mongo} from '../db';
 import Post from '../entity/Post';
 
 class PostService {
-    // async findUser(username: string, password: string) {
-    //     const userRepo = mongo.getRepository(Post);
-    //     return userRepo.findOne({where: {username: username, password: password}}); 
-    // }
+    async getAllUserPost(userId: string) {
+        const userRepo = mongo.getRepository(Post);
+        return userRepo.find({where: {from: userId}}); 
+    }
 
     async addPost(title: string, imageSource: string, from: string) {
         const postRepo = mongo.getRepository(Post);

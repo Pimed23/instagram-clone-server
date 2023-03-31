@@ -13,7 +13,7 @@ userRouter.post('/auth', async (req: Request, res: Response, next) => {
     const {username, password} = req.body;
     const user = await userService.findUser(username, password);
     const accessToken = generateAccessToken(user.username);
-    res.json({token: accessToken});
+    res.json({userId: user.id, token: accessToken});
   } catch (err) {
     console.error(err);
     res.status(404).json('Something went wrong...')
