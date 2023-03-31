@@ -28,7 +28,6 @@ export default class MongoDB extends DataSource {
   }
 }
 
-console.log(MONGODB_URL, DATABASE_NAME);
 export const mongo = new MongoDB(MONGODB_URL, DATABASE_NAME);
 mongo.initialize()
   .then(() => console.log('Database connected'))
