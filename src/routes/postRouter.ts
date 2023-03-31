@@ -1,25 +1,13 @@
 import { Request, Response, Router } from 'express';
 import postService from '../services/postService';
-import jwt from 'jsonwebtoken';
+import { validateToken } from '../credentials';
 
-const userRouter = Router();
+const postRouter = Router();
 
-const validateToken = (req: Request, res: Response, next) => {
-	const accessToken = req.headers['authorization'];
-	if(!accessToken) res.send('Access denied');
-	jwt.verify(accessToken, process.env.SECRET, (err, usr) => {
-		if(err) {
-			res.send('Access denied, token expired...');
-		} else {
-			next();
-		}
-	});
-}
-
-userRouter.get('/post', validateToken, async (req: Request, res: Response, next) => {
+postRouter.get('/post/:name', validateToken, async (req: Request, res: Response, next) => {
 	try {
-		const {userId} = req.body;
-		const post = await postService.getAllUserPost(userId);
+		const {name} = req.params;
+		const post = await postService.getAllUserPost(name);
 		res.json(post);
 	} catch (err) {
 		console.error(err);
@@ -27,7 +15,17 @@ userRouter.get('/post', validateToken, async (req: Request, res: Response, next)
 	}
 });
 
-userRouter.post('/post/create', validateToken, async (req: Request, res: Response, next) => {
+postRouter.get('/post', validateToken, async (req: Request, res: Response, next) => {
+	try {
+		const post = await postService.getAllPosts();
+		res.json(post);
+	} catch (err) {
+		console.error(err);
+		res.status(404).json('Something went wrong...')
+	}
+});
+
+postRouter.post('/post/create', validateToken, async (req: Request, res: Response, next) => {
   try {
     const {title, imageSource, from} = req.body;
     const post = await postService.addPost(title, imageSource, from);
@@ -38,4 +36,4 @@ userRouter.post('/post/create', validateToken, async (req: Request, res: Respons
 	} 
 });
 
-export default userRouter;
+export default postRouter;
