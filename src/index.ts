@@ -4,7 +4,6 @@ import cors from 'cors';
 import userRouter from './routes/userRouter';
 import postRouter from './routes/postRouter';
 
-
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3001;
